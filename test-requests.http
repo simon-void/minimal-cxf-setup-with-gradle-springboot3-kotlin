@@ -1,0 +1,5 @@
+# executable from within IntelliJ
+GET http://localhost:8080/services/rs/hello
+
+###
+

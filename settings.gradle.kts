@@ -1,0 +1,1 @@
+rootProject.name = "minimal-cxf-setup-with-gradle-springboot3-kotlin"
