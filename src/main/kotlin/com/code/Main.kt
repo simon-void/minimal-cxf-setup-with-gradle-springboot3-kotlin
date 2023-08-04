@@ -7,30 +7,28 @@ import org.apache.cxf.endpoint.Server
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
+import org.springframework.context.support.beans
 
 @SpringBootApplication
 class HelloApp
 
 fun main() {
-    runApplication<HelloApp>()
-}
-
-@Configuration
-class Config {
-
-    @Bean fun getServer(
-        bus: Bus,
-        helloService: HelloService,
-    ): Server = JAXRSServerFactoryBean().apply {
-        setBus(bus)
-        address = "/rs"
-        setServiceBeans(listOf(helloService))
-        setProvider(
-            JacksonJsonProvider().apply {
-                setMapper(jacksonObjectMapper())
+    runApplication<HelloApp> {
+        addInitializers (
+            beans {
+                bean<Server> {
+                    JAXRSServerFactoryBean().apply {
+                        setBus(ref<Bus>())
+                        address = "/rs"
+                        setServiceBeans(listOf(ref<HelloService>()))
+                        setProvider(
+                            JacksonJsonProvider().apply {
+                                setMapper(jacksonObjectMapper())
+                            }
+                        )
+                    }.create()
+                }
             }
         )
-    }.create()
+    }
 }
