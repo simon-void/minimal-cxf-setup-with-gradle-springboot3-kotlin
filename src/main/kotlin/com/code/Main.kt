@@ -18,7 +18,7 @@ fun main() {
             beans {
                 bean<Server> {
                     JAXRSServerFactoryBean().apply {
-                        setBus(ref<Bus>())
+                        bus = ref<Bus>()
                         address = "/rs"
                         setServiceBeans(listOf(ref<HelloService>()))
                         setProvider(
